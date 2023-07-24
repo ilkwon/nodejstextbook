@@ -1,17 +1,20 @@
 const http = require('http');
+const fs = require('fs').promises;
 
 const PORT = 8080;
-const server = http.createServer((req, res) => {
-	res.writeHead(200, { 'Content-Type':'text/html; charset=utf-8'});
-	res.write('<h1>Hello Node!</h1>');
-	res.end('<p>Hello Server!</p>')
-});
-server.listen(PORT);
 
-server.on('listening', () => {
+const server = http.createServer(async (req, res) => {
+	try{
+		const data = await fs.readFile('./server2.html');
+		res.writeHead(200, { 'Content-Type':'text/html; charset=utf-8'});		
+		res.end(data)
+	} catch(err){
+		console.error(err);
+		res.writeHead(500, {'Content-Type': 'text/plain; charset=utf-8'});
+		res.end(err.message);
+	}
+	
+});
+server.listen(PORT, () => {
 	console.log(PORT +'번 포트에서 서버 대기 중입니다.');
-});
-
-server.on('error', (err) => {
-	console.error(err);
 });

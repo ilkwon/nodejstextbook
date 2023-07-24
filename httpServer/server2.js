@@ -14,4 +14,6 @@ const server = http.createServer((req, res) => {
 		res.end(err.message);
 	}
 });
-server.listen(PORT);
+server.listen(PORT, () => {
+	console.log(PORT + '번 포트에서 대기중입니다.');
+})
