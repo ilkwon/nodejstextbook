@@ -67,7 +67,7 @@ http.createServer(async (req, res) => {
 				});
 			}
 		} else if(req.method === 'DELETE'){
-			if (req.url.startsWidth('/user')){
+			if (req.url.startsWith('/user/')){
 				const key = req.url.split('/')[2];
 				
 				delete users[key];
