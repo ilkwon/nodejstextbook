@@ -17,16 +17,17 @@ http.createServer(async (req, res) => {
 			} else if (req.url === '/about'){
 				const data = await fs.readFile(path.join(__dirname, 'about.html'));
 				res.writeHead(200, {'Content-Type':'text/html; charset=utf-8'});			
-
-				return res.end(data);
-			} else if (req.url === '/users'){
-				res.writeHead(200, {'Content-Type':'application/json; charset=utf-8'});
 				
-				return res.end(data);
+				return res.end(data);				
+			} else if (req.url === '/users'){
+				res.writeHead(200, {'Content-Type':'application/json; charset=utf-8'});				
+
+				return res.end(JSON.stringify(users));
 			}
 			// 주소가 /도 /about도 아니면
 			try{
 				const data = await fs.readFile(path.join(__dirname, req.url));
+
 				return res.end(data);						
 			} catch(err){
 				// 주소에 해당하는 라우트를 찾지 못했다는 404 Not found error 발생.
@@ -44,6 +45,9 @@ http.createServer(async (req, res) => {
 					
 					const { name } = JSON.parse(body);
 					const id = Date.now();
+					
+					users[id] = name;
+
 					res.writeHead(201, { 'Content-Type':'text/plain; charset-utf-8'});
 					res.end('등록 성공');
 				});
@@ -65,7 +69,9 @@ http.createServer(async (req, res) => {
 		} else if(req.method === 'DELETE'){
 			if (req.url.startsWidth('/user')){
 				const key = req.url.split('/')[2];
-				delete user[key];
+				
+				delete users[key];
+				
 				res.writeHead(200, {'Content-Type':'application/json; charset=utf-8'});
 				return res.end(JSON.stringify(users));
 			}
@@ -74,6 +80,7 @@ http.createServer(async (req, res) => {
 		  res.end('NOT FOUND');
 	} catch(err){
 		console.error(err);		
+		res.writeHead(500);
 		res.writeHead(500, {'Content-Type':'text/plain; charset=utf-8'});
 		res.end(err);
 	}

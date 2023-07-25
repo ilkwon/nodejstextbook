@@ -40,7 +40,7 @@ async function getUser(){
 			userDiv.appendChild(span);
 			userDiv.appendChild(edit);
 			userDiv.appendChild(remove);
-			list.appendChild(userdiv);
+			list.appendChild(userDiv);
 			console.log(res.data);
 		});
 
