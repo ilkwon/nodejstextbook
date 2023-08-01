@@ -1,3 +1,5 @@
 node_modules
 learn-express/node_modules
 websocket/gif-chat/node_modules
+gif-chat/node_modules
+gif-chat_socketio/node_modules
